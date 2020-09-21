@@ -325,11 +325,9 @@ class WC_Deposits_Add_To_Cart
                 if ($product->has_person_types()) {
 
                     $persons = 0;
-
                     $person_types = array_keys($product->get_person_types());
 
                     foreach ($person_types as $type) {
-
                         if (isset($posted['wc_bookings_field_persons_' . $type])) {
                             $persons += intval($posted['wc_bookings_field_persons_' . $type]);
                         }
@@ -340,15 +338,16 @@ class WC_Deposits_Add_To_Cart
                 }
 
                 if ($amount_type === 'fixed') {
-                    //					$deposit = $deposit_amount * $persons;
                     $deposit = $deposit_amount;
-                } else { // percent
+                } else {
+                    // percentage
                     $deposit = $deposit_amount / 100.0 * $amount;
                 }
             } else {
                 if ($amount_type === 'fixed') {
                     $deposit = $deposit_amount;
-                } else { // percent
+                } else {
+                    // percentage
                     $deposit = $deposit_amount / 100.0 * $amount;
                 }
             }
