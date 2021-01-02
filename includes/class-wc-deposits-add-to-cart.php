@@ -317,11 +317,46 @@ class WC_Deposits_Add_To_Cart
             }
         }
 
+		if ($product->get_type() === 'accommodation-booking') {
+
+            $amount = $booking_cost;
+            if ($product->has_persons() && $deposits_enable_per_person == 'yes') {
+
+                if ($product->has_person_types()) {
+
+                    $persons = 0;
+                    $person_types = array_keys($product->get_person_types());
+
+                    foreach ($person_types as $type) {
+                        if (isset($posted['wc_bookings_field_persons_' . $type])) {
+                            $persons += intval($posted['wc_bookings_field_persons_' . $type]);
+                        }
+                    }
+
+                } else {
+                    $persons = $posted['wc_bookings_field_persons'];
+                }
+
+                if ($amount_type === 'fixed') {
+                    $deposit = $deposit_amount;
+                } else {
+                    // percentage
+                    $deposit = $deposit_amount / 100.0 * $amount;
+                }
+            } else {
+                if ($amount_type === 'fixed') {
+                    $deposit = $deposit_amount;
+                } else {
+                    // percentage
+                    $deposit = $deposit_amount / 100.0 * $amount;
+                }
+            }
+        }
+
         $deposit_html = wc_price($deposit);
         $script = '<script type="text/javascript">
                 var deposit_html = \'' . $deposit_html . '\'
-            jQuery("#deposit-amount .amount").html(deposit_html);
-               
+            jQuery("#deposit-amount").html(deposit_html);
                 </script>';
 
         return $html . $script;

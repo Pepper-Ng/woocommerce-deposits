@@ -202,22 +202,24 @@ function wc_deposits_calculate_product_deposit($product)
                     $deposit = $amount * ($deposit / 100.0);
                 }
                 break;
-            case 'variable' :
 
+            case 'variable' :
                 if ($amount_type === 'fixed') {
                 } else {
                     $deposit = $amount * ($deposit / 100.0);
                 }
                 break;
 
-            default:
-
-
+            case 'accommodation-booking' :
                 if ($amount_type !== 'fixed') {
-
                     $deposit = $amount * ($deposit / 100.0);
                 }
+                break;
 
+            default:
+                if ($amount_type !== 'fixed') {
+                    $deposit = $amount * ($deposit / 100.0);
+                }
                 break;
         }
 
